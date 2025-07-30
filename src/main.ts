@@ -58,7 +58,7 @@ let vs = gl.createShader(gl.VERTEX_SHADER)!;
 gl.shaderSource(vs, vsSource);
 gl.compileShader(vs);
 
-let textureMap = new Map<string, { name: string, image: HTMLImageElement }>();
+let textureMap = new Map<string, { name: string, image: HTMLImageElement, wrap: GLenum, filter: GLenum }>();
 let colorMap = new Map<string, { name: string, color: string }>();
 
 if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
@@ -84,6 +84,42 @@ if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
                     thumbnail.className = "texture-thumbnail";
                     thumbnail.style.width = "100px";
                     thumbnail.style.height = "100px";
+                    const wrapSelect = container.appendChild(document.createElement("select"));
+                    wrapSelect.className = "wrap-select";
+                    {
+                        const wrapSelectClamp = wrapSelect.appendChild(document.createElement("option"));
+                        wrapSelectClamp.value = "clamp";
+                        wrapSelectClamp.innerText = "clamp"
+                        const wrapSelectRepeat = wrapSelect.appendChild(document.createElement("option"));
+                        wrapSelectRepeat.value = "repeat";
+                        wrapSelectRepeat.innerText = "repeat"
+                    }
+                    wrapSelect.onchange = () => {
+                        if (wrapSelect.value == "clamp") {
+                            textureMap.get(key)!.wrap = gl.CLAMP_TO_EDGE;
+                        }
+                        else {
+                            textureMap.get(key)!.wrap = gl.REPEAT;
+                        }
+                    };
+                    const filterSelect = container.appendChild(document.createElement("select"));
+                    {
+                        const filterSelectNearest = filterSelect.appendChild(document.createElement("option"));
+                        filterSelectNearest.value = "nearest";
+                        filterSelectNearest.innerText = "nearest"
+                        const filterSelectLinear = filterSelect.appendChild(document.createElement("option"));
+                        filterSelectLinear.value = "linear";
+                        filterSelectLinear.innerText = "linear"
+                    }
+                    filterSelect.className = "filter-select";
+                    filterSelect.onchange = () => {
+                        if (filterSelect.value == "nearest") {
+                            textureMap.get(key)!.filter = gl.NEAREST;
+                        }
+                        else {
+                            textureMap.get(key)!.filter = gl.LINEAR;
+                        }
+                    };
                     const nameEdit = container.appendChild(document.createElement("input"));
                     nameEdit.type = "text";
                     nameEdit.value = "tex" + textureMap.size;
@@ -96,7 +132,7 @@ if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
                         container.remove();
                         textureMap.delete(key);
                     };
-                    textureMap.set(key, { image: newImage, name: nameEdit.value });
+                    textureMap.set(key, { image: newImage, name: nameEdit.value, wrap: gl.CLAMP_TO_EDGE, filter: gl.NEAREST });
                 };
             };
             reader.readAsDataURL(file);
@@ -173,9 +209,10 @@ function renderCanvas() {
             gl.activeTexture(gl.TEXTURE0 + i);
             gl.bindTexture(gl.TEXTURE_2D, tex);
             const image = value.image;
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, value.wrap);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, value.wrap);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, value.filter);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, value.filter);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, image.naturalWidth, image.naturalHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, image);
             gl.uniform1i(gl.getUniformLocation(program, value.name), i);
             ++i;
