@@ -149,9 +149,7 @@ function renderCanvas() {
                 colNames += "vec4 " + value.name + " = vec4(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ", 1);\n";
             }
         });
-        gl.shaderSource(fs, fsHeader + texNames + colNames +
-            editor.getValue()
-            + fsMain);
+        gl.shaderSource(fs, fsHeader + texNames + colNames + view.state.doc + fsMain);
     }
     gl.compileShader(fs);
     if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
@@ -260,19 +258,13 @@ viewHeight.onchange = () => {
     updateCanvas();
 };
 
-import ace from "ace-builds"
-import "ace-builds/esm-resolver"
-import "ace-builds/src-noconflict/ext-language_tools"
+import { basicSetup } from "codemirror"
+import { EditorView } from "@codemirror/view"
 
-ace.require("ace/ext/language_tools");
-var editor = ace.edit("editor");
-editor.setTheme("ace/theme/textmate");
-editor.session.setMode("ace/mode/glsl");
-editor.setOptions({
-    enableBasicAutocompletion: true,
-    enableSnippets: true,
-    enableLiveAutocompletion: true,
-});
-editor.setValue(templateCode);
+const view = new EditorView({
+    doc: templateCode,
+    parent: document.querySelector<HTMLDivElement>("#editor")!,
+    extensions: [basicSetup]
+})
 
 updateCanvas();

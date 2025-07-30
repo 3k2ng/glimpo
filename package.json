@@ -13,7 +13,7 @@
     "vite": "^7.0.4"
   },
   "dependencies": {
-    "ace-builds": "github:ajaxorg/ace-builds#master",
+    "codemirror": "^6.0.2",
     "uuid": "^11.1.0"
   }
 }
