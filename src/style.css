@@ -1,0 +1,128 @@
+body {
+    text-align: left;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    /* margin-left: 10px; */
+    padding: 0;
+}
+
+h2 {
+    margin: 10px 0px;
+    font-size: medium;
+}
+
+p {
+    font-size: small;
+    margin: 5px 0px;
+}
+
+.mid-pane {
+    float: left;
+    width: 50%;
+    height: 1000px;
+    margin: 0;
+    padding: 0;
+}
+
+.left-pane {
+    float: left;
+    width: calc(15% - 12px);
+    padding: 0px 5px;
+    border-right: 2px solid gray;
+}
+
+.right-pane {
+    float: left;
+    width: calc(35% - 14px);
+    height: 100%;
+    padding: 0px 5px;
+    overflow: scroll;
+    border-left: 2px solid gray;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-bottom: 0px;
+    display: block;
+}
+
+#gl-canvas {
+    margin: auto;
+    display: block;
+
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+
+    border: 1px solid black;
+}
+
+.texture {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.texture-settings {
+    width: fit-content;
+    margin: auto;
+    margin-top: 0px;
+}
+
+#editor {
+    width: 100%;
+    height: 80%;
+}
+
+#textures {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#editor {
+    font-size: 14px;
+}
+
+#file-src-box {
+    margin-left: 5px;
+    width: 90%;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#color-label {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+
+#reload-btn {
+    margin: 5px 0px;
+}
+
+#img-properties {
+    width: fit-content;
+    margin: auto;
+}
+
+#color-picker {
+    width: fit-content;
+    margin: auto;
+    margin-top: 25px;
+}
+
+#msg-textarea {
+    width: 100%;
+    margin: 0px;
+    height: 20%;
+}
+
+#color-block:hover {
+    cursor: crosshair;
+}
+
+#color-strip:hover {
+    cursor: crosshair;
+}

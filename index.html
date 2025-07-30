@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>glimpo</title>
+</head>
+
+<body>
+    <div id="input-group" class="left-pane">
+        <h2>Add Texture</h2>
+        <input type="file" id="texture-upload" accept="image/*" />
+        <h2>Textures</h2>
+        <div id="texture-list">
+        </div>
+
+        <h2>Colors</h2>
+        <div id="color-list">
+        </div>
+        <button id="color-btn">add color</button>
+    </div>
+    <div id="editor-group" class="mid-pane">
+        <div id="editor"></div>
+    </div>
+    <div id="output-group" class="right-pane">
+        <button id="reload-btn">Reload</button>
+        <canvas id="gl-canvas"></canvas>
+        <div id="img-properties">
+            <div id="output-dimensions">
+                <p>Output Dimensions</p>
+                <input type="text" id="output-width" value="256" />
+                x
+                <input type="text" id="output-height" value="256" />
+                <input type="checkbox" id="output-aspect-fixed" checked />
+                <label>fixed</label>
+            </div>
+            <div id="view-dimensions">
+                <p>View Dimensions</p>
+                <input type="text" id="view-width" value="256" />
+                x
+                <input type="text" id="view-height" value="256" />
+                <input type="checkbox" id="view-aspect-fixed" checked />
+                <label>fixed</label>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
